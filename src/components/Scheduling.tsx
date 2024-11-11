@@ -94,11 +94,15 @@ const ScheduleItem: React.FC<{
 
   const updateVote = async (vote: VoteType) => {
     if (!userInfo) return;
-    await campaign.campaign.voteForTimeProposal(
-      proposal.id,
-      userInfo.id!,
-      vote,
-    );
+    if (userVote === vote) {
+      await campaign.campaign.unvoteForTimeProposal(proposal.id, userInfo.id!);
+    } else {
+      await campaign.campaign.voteForTimeProposal(
+        proposal.id,
+        userInfo.id!,
+        vote,
+      );
+    }
   };
 
   return (

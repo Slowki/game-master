@@ -167,6 +167,16 @@ export class Campaign {
     proposal.votes[userId] = vote;
     invalidate(useCloud<typeof Campaign>(this.id).getTimeProposals);
   }
+
+  public unvoteForTimeProposal(id: string, userId: string): void {
+    const proposal = this.times.find((x) => x.id === id);
+    if (!proposal) {
+      throw new Error("Time proposal not found");
+    }
+
+    delete proposal.votes[userId]; // eslint-disable-line
+    invalidate(useCloud<typeof Campaign>(this.id).getTimeProposals);
+  }
 }
 
 @cloudstate
