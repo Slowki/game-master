@@ -1,6 +1,6 @@
 # Game master
 
-A web app that makes it easier for TTRPG game masters schedule and manage their games.
+A web app that makes it easier for TTRPG game masters to schedule and manage their games.
 
 ## Running the development server
 
