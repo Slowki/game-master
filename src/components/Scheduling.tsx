@@ -106,7 +106,7 @@ const ScheduleItem: React.FC<{
   };
 
   return (
-    <div className={`card schedule-item row ${winning ? "winning-vote" : ""}`}>
+    <div className={`card schedule-item ${winning ? "winning-vote" : ""}`}>
       <p className="schedule-time">
         {dateToEmoji(time)} {dateToHuman(time)}
       </p>

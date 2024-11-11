@@ -81,9 +81,7 @@ const PartyMember = ({ link }: { link: CampaignLink }) => {
         <div className="flex">
           <b>{characterName}</b>
         </div>
-        <div className="flex muted">
-          {link.linkType} - {playerName}
-        </div>
+        <div className="flex muted">{playerName}</div>
       </div>
       <div className="row">
         {editorButton} {deleteButton}
