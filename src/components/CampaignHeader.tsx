@@ -9,9 +9,15 @@ import React, { useState } from "react";
 import { useCloudQuery } from "freestyle-sh/react";
 
 function copyLinkToClipboard(campaignId: string) {
-  navigator.clipboard.writeText(
-    `${document.location.protocol}//${document.location.host}/campaign/${campaignId}`,
-  );
+  const url = `${document.location.protocol}//${document.location.host}/campaign/${campaignId}`;
+  if (navigator.share) {
+    navigator.share({
+      title: "Campaign Read-Only Link",
+      url: url,
+    });
+  } else {
+    navigator.clipboard.writeText(url);
+  }
 }
 
 const CampaignHeader: React.FC = () => {

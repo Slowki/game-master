@@ -10,10 +10,8 @@ import { useCloudQuery } from "freestyle-sh/react";
 import { useState } from "react";
 import { useCloud } from "freestyle-sh";
 
-function copyLinkToClipboard(linkId: string) {
-  navigator.clipboard.writeText(
-    `${document.location.protocol}//${document.location.host}/player/${linkId}`,
-  );
+function playerLink(linkId: string) {
+  return `${document.location.protocol}//${document.location.host}/player/${linkId}`;
 }
 
 const PartyMemberEditor = ({ link }: { link: CampaignLink }) => {
@@ -24,7 +22,14 @@ const PartyMemberEditor = ({ link }: { link: CampaignLink }) => {
     <>
       <button
         onClick={(e) => {
-          copyLinkToClipboard(link.id);
+          if (navigator.share) {
+            navigator.share({
+              title: "Campaign Link",
+              url: playerLink(link.id),
+            });
+          } else {
+            navigator.clipboard.writeText(playerLink(link.id));
+          }
           e.stopPropagation();
         }}
       >
