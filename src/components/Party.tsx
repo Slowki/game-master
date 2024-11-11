@@ -68,7 +68,9 @@ const PartyMember = ({ link }: { link: CampaignLink }) => {
   if (userIsGM && !linkIsUser) {
     const deleteUser = async () => {
       // Logic to add a party member
-      await campaignInfo.campaign.removeCampaignLink(link.id);
+      if (confirm(`Are you sure you want to delete ${characterName}?`)) {
+        await campaignInfo.campaign.removeCampaignLink(link.id);
+      }
     };
 
     deleteButton = <button onClick={deleteUser}>X</button>;

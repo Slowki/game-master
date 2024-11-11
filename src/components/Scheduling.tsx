@@ -89,7 +89,9 @@ const ScheduleItem: React.FC<{
   const userVote = userInfo ? proposal.votes[userInfo.id!] : null;
 
   const handleDelete = async () => {
-    await campaign.campaign.removeTimeProposal(proposal.id);
+    if (confirm("Are you sure you want to delete this time proposal?")) {
+      await campaign.campaign.removeTimeProposal(proposal.id);
+    }
   };
 
   const updateVote = async (vote: VoteType) => {
