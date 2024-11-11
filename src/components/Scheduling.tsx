@@ -4,6 +4,7 @@ import { useCampaign } from "../context/campaign";
 import { useUserInfo, useUserIsGM } from "../context/userInfo";
 import HeaderButton from "./HeaderButton";
 import { dateToHuman, dateToEmoji } from "../data/date";
+import { campaignReadOnlyLink } from "../data/links";
 
 import React, { lazy, Suspense, useState } from "react";
 import { useCloudQuery } from "freestyle-sh/react";
@@ -36,6 +37,46 @@ const ProposeTime = () => {
       </HeaderButton>
     </Suspense>
   );
+};
+
+const ExportToICalButton: React.FC<{ time: Date }> = ({ time }) => {
+  if (!navigator.share) {
+    return null;
+  }
+
+  const campaignInfo = useCampaign();
+  const { data: campaignId } = useCloudQuery(campaignInfo.campaign.getId);
+  const { data: name } = useCloudQuery(campaignInfo.campaign.getName);
+
+  const exportToICAL = async () => {
+    const isoTime = time.toISOString();
+    const icsContent = `
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:${isoTime}
+DTSTAMP:${isoTime.replace(/[-:]/g, "").split(".")[0]}
+DTSTART:${isoTime.replace(/[-:]/g, "").split(".")[0]}
+SUMMARY: Game: ${name}
+DESCRIPTION:Overview: ${campaignReadOnlyLink(campaignId)}
+DURATION:PT3H
+END:VEVENT
+END:VCALENDAR
+    `.trim();
+
+    const blob = new Blob([icsContent], { type: "text/calendar" });
+    const file = new File([blob], "event.ics", { type: "text/calendar" });
+
+    try {
+      await navigator.share({
+        files: [file],
+      });
+    } catch (error) {
+      console.error("Error sharing the file", error);
+    }
+  };
+
+  return <HeaderButton onClick={exportToICAL}>⬇︎ ICal</HeaderButton>;
 };
 
 const VoteButton: React.FC<{
@@ -133,6 +174,7 @@ const Schedule = () => {
   const { data: times } = useCloudQuery(campaignInfo.campaign.getTimeProposals);
 
   let content: React.ReactNode = null;
+  let winningTime: Date | null = null;
   if (times === undefined) {
     content = <div>Loading proposed times</div>;
   } else {
@@ -144,7 +186,7 @@ const Schedule = () => {
       }))
       .sort((a, b) => (a.time > b.time ? 1 : -1));
 
-    const winningTime = rankedChoiceVote<Date>(
+    winningTime = rankedChoiceVote<Date>(
       timeRecords.map(({ votes, time }) => ({
         value: time,
         votes: votes,
@@ -163,7 +205,15 @@ const Schedule = () => {
   }
 
   return (
-    <Section name="Proposed Game Times" headerElements={<ProposeTime />}>
+    <Section
+      name="Proposed Game Times"
+      headerElements={
+        <div className="row">
+          <ProposeTime />
+          {winningTime && <ExportToICalButton time={winningTime} />}
+        </div>
+      }
+    >
       <span className="muted">
         Ranked choice voting for the next game session. Select your top 3
         available times and 👎 any times that don't work for you.

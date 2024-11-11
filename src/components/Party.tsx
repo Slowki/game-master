@@ -5,14 +5,11 @@ import { useUserInfo, useUserIsGM } from "../context/userInfo";
 import { CampaignLinkType } from "../data/campaign";
 import HeaderButton from "./HeaderButton";
 import PlayerEditDialog from "./PlayerEditDialog";
+import { playerLink } from "../data/links";
 
 import { useCloudQuery } from "freestyle-sh/react";
 import { useState } from "react";
 import { useCloud } from "freestyle-sh";
-
-function playerLink(linkId: string) {
-  return `${document.location.protocol}//${document.location.host}/player/${linkId}`;
-}
 
 const PartyMemberEditor = ({ link }: { link: CampaignLink }) => {
   const cloudLink = useCloud<typeof CampaignLink>(link.id);

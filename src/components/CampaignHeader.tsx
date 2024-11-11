@@ -4,12 +4,13 @@ import Section from "../components/Section";
 import CampaignEditDialog from "../components/CampaignEditor";
 import LinksSection, { LinkAddButton } from "./LinksSection";
 import HeaderButton from "./HeaderButton";
+import { campaignReadOnlyLink } from "../data/links";
 
 import React, { useState } from "react";
 import { useCloudQuery } from "freestyle-sh/react";
 
 function copyLinkToClipboard(campaignId: string) {
-  const url = `${document.location.protocol}//${document.location.host}/campaign/${campaignId}`;
+  const url = campaignReadOnlyLink(campaignId);
   if (navigator.share) {
     navigator.share({
       title: "Campaign Read-Only Link",
