@@ -1,11 +1,11 @@
 import { CampaignContext } from "../context/campaign";
 import { Campaign } from "../cloudstate/campaign";
 import CampaignComponent from "../components/Campaign";
+import BottomBarLazy from "../components/BottomBarLazy";
 
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useCloud } from "freestyle-sh";
-import BottomBarLazy from "../components/BottomBarLazy";
 
 const CampaignPage: React.FC = () => {
   const { linkid } = useParams<{ linkid: string }>();

@@ -5,18 +5,7 @@ import Schedule from "../components/Scheduling";
 import CampaignHeader from "../components/CampaignHeader";
 
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
 import { useCloudQuery } from "freestyle-sh/react";
-
-const Overview: React.FC = () => {
-  return (
-    <>
-      <CampaignHeader />
-      <Party />
-      <Schedule />
-    </>
-  );
-};
 
 const CampaignComponent: React.FC = () => {
   const campaignInfo = useCampaign();
@@ -43,10 +32,9 @@ const CampaignComponent: React.FC = () => {
 
   return (
     <UserInfoContext.Provider value={userInfo}>
-      <Routes>
-        <Route index element={<Navigate to="overview" />} />
-        <Route path="overview" element={<Overview />} />
-      </Routes>
+      <CampaignHeader />
+      <Party />
+      <Schedule />
     </UserInfoContext.Provider>
   );
 };
