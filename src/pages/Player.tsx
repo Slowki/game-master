@@ -6,6 +6,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useCloudQuery } from "freestyle-sh/react";
 import { useCloud } from "freestyle-sh";
+import BottomBarLazy from "../components/BottomBarLazy";
 
 const CampaignPage: React.FC = () => {
   const { linkid } = useParams<{ linkid: string }>();
@@ -24,6 +25,7 @@ const CampaignPage: React.FC = () => {
       <div className="container">
         <CampaignComponent />
       </div>
+      <BottomBarLazy />
     </CampaignContext.Provider>
   );
 };

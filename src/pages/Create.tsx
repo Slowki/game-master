@@ -5,6 +5,7 @@ import HeaderButton from "../components/HeaderButton";
 import { useCloud } from "freestyle-sh";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import BottomBarLazy from "../components/BottomBarLazy";
 
 const Create: React.FC = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const Create: React.FC = () => {
         </p>
         <HeaderButton onClick={handleCreate}>Create</HeaderButton>
       </Section>
+      <BottomBarLazy />
     </div>
   );
 };

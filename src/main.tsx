@@ -1,14 +1,12 @@
 import "./index.css";
 
-import React, { Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-
-const BottomBar = lazy(() => import("./components/BottomBar"));
 
 const router = createBrowserRouter([
   {
@@ -42,7 +40,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
       <RouterProvider router={router} />
-      <BottomBar />
     </Suspense>
   </React.StrictMode>,
 );
