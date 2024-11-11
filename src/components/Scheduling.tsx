@@ -142,7 +142,7 @@ const Schedule = () => {
         votes: collectVotes(proposal.votes),
         time: new Date(Date.parse(proposal.date)),
       }))
-      .sort((a, b) => (a.time > b.time ? -1 : 1));
+      .sort((a, b) => (a.time > b.time ? 1 : -1));
 
     const winningTime = rankedChoiceVote<Date>(
       timeRecords.map(({ votes, time }) => ({
